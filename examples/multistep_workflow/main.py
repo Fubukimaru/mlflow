@@ -32,6 +32,8 @@ def _already_ran(entry_point_name, parameters, git_commit, experiment_id=None):
             continue
         match_failed = False
         for param_key, param_value in parameters.items():
+            if type(param_value) is int or type(param_value) is float:
+                param_value = str(param_value)
             run_value = full_run.data.params.get(param_key)
             if run_value != param_value:
                 match_failed = True
