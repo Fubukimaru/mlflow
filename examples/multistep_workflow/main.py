@@ -65,8 +65,9 @@ def _already_ran(entry_point_name, parameters, git_commit, experiment_id=None):
 # - changes in code
 # - changes in dependant steps
 def _get_or_run(entrypoint, parameters, git_commit, use_cache=True):
-    existing_run = _already_ran(entrypoint, parameters, git_commit)
-    if use_cache and existing_run:
+    if use_cache:
+        existing_run = _already_ran(entrypoint, parameters, git_commit)
+        if existing_run:
         print("Found existing run for entrypoint=%s and parameters=%s" % (entrypoint, parameters))
         return existing_run
     print("Launching new run for entrypoint=%s and parameters=%s" % (entrypoint, parameters))
