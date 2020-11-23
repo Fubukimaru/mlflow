@@ -32,7 +32,7 @@ def _already_ran(entry_point_name, parameters, git_commit, experiment_id=None):
             continue
         match_failed = False
         for param_key, param_value in parameters.items():
-            if type(param_value) is int or type(param_value) is float:
+            if (type(param_value) is int) or (type(param_value) is float):
                 param_value = str(param_value)
             run_value = full_run.data.params.get(param_key)
             if run_value != param_value:
@@ -70,8 +70,8 @@ def _get_or_run(entrypoint, parameters, git_commit, use_cache=True):
     if use_cache:
         existing_run = _already_ran(entrypoint, parameters, git_commit)
         if existing_run:
-        print("Found existing run for entrypoint=%s and parameters=%s" % (entrypoint, parameters))
-        return existing_run
+            print("Found existing run for entrypoint=%s and parameters=%s" % (entrypoint, parameters))
+            return existing_run
     print("Launching new run for entrypoint=%s and parameters=%s" % (entrypoint, parameters))
     submitted_run = mlflow.run(".", entrypoint, parameters=parameters)
     return mlflow.tracking.MlflowClient().get_run(submitted_run.run_id)
